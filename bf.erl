@@ -2,7 +2,7 @@
 -export([interpret/1]).
 
 interpret([], _, _) -> ok;
-interpret([62|Tokens], L1, []) -> interpret(Tokens, [0|L1], []);
+interpret([62|Tokens], L1, [])      -> interpret(Tokens, [0|L1], []);
 interpret([62|Tokens], L1, [L|L2])  -> interpret(Tokens, [L|L1], L2);
 interpret([60|Tokens], [A|[]], L2)  -> interpret(Tokens, [0], [A|L2]);
 interpret([60|Tokens], [L|L1], L2)  -> interpret(Tokens, L1, [L|L2]);
@@ -25,6 +25,7 @@ interpret([91|Tokens], L1, L2) ->
       end;
     ok -> throw(unexpected_ok)
   end;
-interpret([93|T], L1, L2) -> {end_loop, T, L1, L2}.
+interpret([93|T], L1, L2) -> {end_loop, T, L1, L2};
+interpret([_|T], L1, L2)  -> interpret(T, L1, L2).
 
 interpret(L) -> interpret(L, [0], []).
