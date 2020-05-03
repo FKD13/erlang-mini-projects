@@ -45,8 +45,6 @@ register_client(Relay, Socket) ->
 handle_connection(Relay, Socket, Client) ->
   inet:setopts(Socket, [{active, once}]),
   receive
-    {tcp, Socket, <<"quit", _/binary>>} ->
-      gen_tcp:close(Socket);
     {tcp, Socket, Msg} ->
       Relay ! {relay, Msg, Client},
       handle_connection(Relay, Socket, Client);
